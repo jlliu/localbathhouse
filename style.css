@@ -1,0 +1,116 @@
+@font-face {
+  font-family: "Arista Pro";
+  src:
+    url("assets/font/aristapro-light.otf") format("opentype");
+}
+body {
+  padding: 0;
+  margin: 0;
+  background-color: white;
+  /* cursor:none !important; */
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  color:white;
+  /* pointer-events:none; */
+}
+
+body#experimental{
+  background-color:white;
+  color:black;
+}
+
+canvas, video {
+  margin: auto;
+  visibility: visible;
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* cursor: none !important; */
+  transition: opacity 1s;
+}
+
+		#buttonContainer{
+  margin: auto;
+  /* background:blue; */
+  /* opacity:.5; */
+  /* opacity:.3; */
+  visibility: visible;
+  position:absolute;
+  width:550px;
+  height:400px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* cursor: none !important; */
+  transition: opacity 1s;
+  z-index:1;
+
+		}
+
+    #buttonContainer button{
+
+      /* background:red; */
+      position:absolute;
+      cursor: pointer;
+      opacity:0 !important;
+    }
+
+    /* Button CSS */
+
+  .right{
+      width:75px;
+      height:400px;
+      top:0px;
+      right:0px;
+    }
+
+    .left{
+      width:75px;
+      height:400px;
+      top:0px;
+      left:0px;
+    }
+
+  .top{
+    width:550px;
+    height:75px;
+    top:0px;
+    left:0px;
+
+  }
+  .bottom{
+    width:550px;
+    height:75px;
+    bottom:0px;
+    left:0px;
+  }
+  button#toShowers{
+    width: 388px;
+    height: 244px;
+    top: 38px;
+    left: 81px;
+  }
+
+    button#showerHandle{
+    width: 120px;
+    height: 120px;
+    top: 140px;
+    left: 215px;
+  }
+
+
+  button#toJacuzzi{
+    width: 300px;
+    height: 100px;
+    top: 189px;
+    left: 30px;
+  }
+
+  button#jacuzziButton{
+    width: 60px;
+    height: 60px;
+    top: 35px;
+    left: 240px;
+  }

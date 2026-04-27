@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bath house</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="lib/p5.min.js"></script>
+  <script src="lib/tone.js"></script>
+
+	<style>
+
+
+	</style>
+
+
+
+
+
+</head>
+
+<body>
+
+  <main>
+
+	<div id="buttonContainer">
+<!-- <button id="mirrorButton"></button>
+<button id="sinkLButton"></button>
+<button id="sinkRButton"></button> -->
+
+
+<!-- 0:  Main bathhouse -->
+	<button data-scene="bathhouse_main"  class="right" onclick="goToScene('bathhouse_sauna')"></button>
+	<button data-scene="bathhouse_main" class="left" onclick="goToScene('bathhouse_showers')"></button>
+
+	<button data-scene="bathhouse_main" id="toJacuzzi" onclick="goToScene('jacuzzi')"></button>
+
+	<!-- 1:  Showers -->
+	<button data-scene="bathhouse_showers"  class="right" onclick="goToScene('bathhouse_main')"></button>
+	<button data-scene="bathhouse_showers"  class="left" onclick="goToScene('bathhouse_exit')"></button>
+
+	<button data-scene="bathhouse_showers" id="toShowers" onclick="goToScene('shower')"></button>
+
+	<!-- 2:  Sauna door -->
+	<button data-scene="bathhouse_sauna"  class="right" onclick="goToScene('bathhouse_exit')"></button>
+	<button data-scene="bathhouse_sauna"  class="left" onclick="goToScene('bathhouse_main')"></button>
+
+	<!-- 3: exit door -->
+	<button data-scene="bathhouse_exit" class="right" onclick="goToScene('bathhouse_showers')"></button>
+	<button data-scene="bathhouse_exit"  class="left" onclick="goToScene('bathhouse_sauna')"></button>
+
+	<!-- 4: Shower zoom -->
+	<button data-scene="shower" class="right" onclick="goToScene('bathhouse_showers')"></button>
+	<button data-scene="shower" class="left" onclick="goToScene('bathhouse_showers')"></button>
+	<button data-scene="shower"  class="bottom" onclick="goToScene('bathhouse_showers')"></button>
+	<button data-scene="shower"  class="top" onclick="goToScene('bathhouse_showers')"></button>
+
+	<button data-scene="shower" id="showerHandle" ></button>
+
+
+	<!-- Jacuzzi -->
+
+	<button data-scene="jacuzzi"  class="right" onclick="goToScene('bathhouse_main')"></button>
+	<button data-scene="jacuzzi"  class="left" onclick="goToScene('bathhouse_main')"></button>
+	<button data-scene="jacuzzi"  class="bottom" onclick="goToScene('bathhouse_main')"></button>
+	<button data-scene="jacuzzi"  class="top" onclick="goToScene('bathhouse_main')"></button>
+
+	<button data-scene="jacuzzi" id="jacuzziButton" ></button>
+
+	</div>
+
+  </main>
+
+
+
+  <script src="script.js" defer></script>
+
+
+
+
+
+
+
+</body>
+
+</html>
