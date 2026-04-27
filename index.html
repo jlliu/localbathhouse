@@ -36,6 +36,8 @@
 
 	<button data-scene="bathhouse_main" id="toJacuzzi" onclick="goToScene('jacuzzi')"></button>
 
+		<button data-scene="bathhouse_main" id="toColdbath" onclick="goToScene('coldbath')"></button>
+
 	<!-- 1:  Showers -->
 	<button data-scene="bathhouse_showers"  class="right" onclick="goToScene('bathhouse_main')"></button>
 	<button data-scene="bathhouse_showers"  class="left" onclick="goToScene('bathhouse_exit')"></button>
@@ -61,16 +63,26 @@
 
 	<!-- Jacuzzi -->
 
-	<button data-scene="jacuzzi"  class="right" onclick="goToScene('bathhouse_main')"></button>
-	<button data-scene="jacuzzi"  class="left" onclick="goToScene('bathhouse_main')"></button>
+	<button data-scene="jacuzzi"  class="right" onclick="goToScene('coldbath')"></button>
+	<button data-scene="jacuzzi"  class="left" onclick="goToScene('bathhouse_showers')"></button>
 	<button data-scene="jacuzzi"  class="bottom" onclick="goToScene('bathhouse_main')"></button>
 	<button data-scene="jacuzzi"  class="top" onclick="goToScene('bathhouse_main')"></button>
 
 	<button data-scene="jacuzzi" id="jacuzziButton" ></button>
 
+	<!-- Cold bath -->
+
+		<button data-scene="coldbath"  class="right" onclick="goToScene('bathhouse_sauna')"></button>
+	<button data-scene="coldbath"  class="left" onclick="goToScene('jacuzzi')"></button>
+	<button data-scene="coldbath"  class="bottom" onclick="goToScene('bathhouse_main')"></button>
+	<button data-scene="coldbath"  class="top" onclick="goToScene('bathhouse_main')"></button>
+
+	<button data-scene="coldbath" id="coldbathPool" ></button>
+
 	</div>
 
   </main>
+
 
 
 

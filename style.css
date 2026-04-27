@@ -35,7 +35,7 @@ canvas, video {
   margin: auto;
   /* background:blue; */
   /* opacity:.5; */
-  /* opacity:.3; */
+  opacity:.3;
   visibility: visible;
   position:absolute;
   width:550px;
@@ -54,7 +54,7 @@ canvas, video {
       /* background:red; */
       position:absolute;
       cursor: pointer;
-      opacity:0 !important;
+      /* opacity:0 !important; */
     }
 
     /* Button CSS */
@@ -113,4 +113,20 @@ canvas, video {
     height: 60px;
     top: 35px;
     left: 240px;
+  }
+
+    button#toColdbath{
+    width: 200px;
+    height: 100px;
+    top: 189px;
+    left: 330px;
+  }
+
+
+
+    button#coldbathPool{
+    width: 479px;
+    height: 176px;
+    top: 189px;
+    left: 36px;
   }

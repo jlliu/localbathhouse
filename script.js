@@ -51,6 +51,7 @@ resetButtons();
 // A scene can either repeat through 3 frames (still scenes) or repeat through many frames (e.g. looping fish animation)
 // A scene can also trigger a timed animation which may run for a finite amount of loops..... it might contain multiple looping sections, not just one frame after another...
 // A scene generally shares the same button actions. If it triggers something that would need different buttons (e.g. Clicking on a vending machine item, then going to the closeup), it would switch to a different scene.
+// An single playing animation is a state of a scene that only loops once, then returns to another state....
 
 let bathhouse_scenes = [];
 // 0: Main View
@@ -66,6 +67,7 @@ let scenes = {
   bathhouse_exit: {},
   shower: {},
   jacuzzi: {},
+  coldbath: {},
 };
 
 function goToScene(sceneName, stateName) {
@@ -83,16 +85,25 @@ function goToScene(sceneName, stateName) {
   currentState = stateName;
   // Refresh clickable/visible buttons  to the current scene
   resetButtons();
-  startAnimation(currentScene, currentState);
+
+  let isSequenceAniamtion = scenes[sceneName][stateName].isSequenceAnimation;
+  startAnimation(currentScene, currentState, isSequenceAniamtion);
 }
 
 // starts the animation given a current scene and state
-function startAnimation(scene, state) {
+function startAnimation(scene, state, isSequenceAnimation) {
   clearInterval(animationInterval);
   let numOfFrames = scenes[scene][state].length;
   animationIndex = 0;
   animationInterval = setInterval(function () {
     animationIndex = (animationIndex + 1) % numOfFrames;
+
+    // Redirect to other scene if sequence animation
+    if (animationIndex == numOfFrames - 1 && isSequenceAnimation) {
+      let destinationScene = scenes[scene][state].destinationScene;
+      let destinationState = scenes[scene][state].destinationState;
+      goToScene(destinationScene, destinationState);
+    }
   }, 100);
 }
 
@@ -107,9 +118,19 @@ let animationIndex = 0;
 
 let timeoutQueue = [];
 
+let spritesheets = {
+  bathhouse: { url: "img/bathhouse_spritesheet.png", imgObj: {} },
+  faucet: { url: "img/faucet_spritesheet.png", imgObj: {} },
+  shower: { url: "img/shower_spritesheet.png", imgObj: {} },
+  jacuzzi: { url: "img/jacuzzi_spritesheet.png", imgObj: {} },
+  jacuzzi_animation: { url: "img/jacuzzi_animation.png", imgObj: {} },
+  coldbath: { url: "img/coldbath_spritesheet.png", imgObj: {} },
+  coldbath_animation: { url: "img/coldbath_animation.png", imgObj: {} },
+};
+
 function resetButtons() {
   buttonContainer.querySelectorAll("button").forEach(function (button) {
-    console.log(button.getAttribute("data-scene"));
+    // console.log(button.getAttribute("data-scene"));
     if (button.getAttribute("data-scene") == currentScene) {
       button.style.display = "block";
     } else {
@@ -145,6 +166,13 @@ jacuzziButton.addEventListener("mousedown", function () {
     jacuzziButtonPressed = true;
     goToScene("jacuzzi", "buttonPress");
   }
+});
+
+let coldbathButton = document.querySelector("#coldbathPool");
+
+coldbathButton.addEventListener("click", function () {
+  //Trigger cold bath animation
+  goToScene("coldbath", "animation");
 });
 
 document.addEventListener("mouseup", function () {
@@ -263,16 +291,16 @@ var game = function (p) {
     //Preload a background here
     //Preload whatever needs to be preloaded
 
-    bathhouse_spritesheet = p.loadImage("img/bathhouse_spritesheet.png");
-    faucet_spritesheet = p.loadImage("img/faucet_spritesheet.png");
-    shower_spritesheet = p.loadImage("img/shower_spritesheet.png");
-    jacuzzi_spritesheet = p.loadImage("img/jacuzzi_spritesheet.png");
-    jacuzzi_animations = p.loadImage("img/jacuzzi_animation.png");
+    for (const [key, value] of Object.entries(spritesheets)) {
+      value.imgObj = p.loadImage(value.url);
+    }
+
+    // spritesheets.forEach(function(spritesheet){
+    //   spritesheet.imgObj =  p.loadImage(spritesheet.url);
+    // });
   };
 
   function populateFrames(spriteSheet, row, sceneName, stateName, numOfFrames) {
-    console.log(sceneName);
-    console.log(stateName);
     scenes[sceneName][stateName] = [];
     //Iterate through columns
     for (var j = 0; j < numOfFrames; j++) {
@@ -286,6 +314,17 @@ var game = function (p) {
       );
       scenes[sceneName][stateName].push(thisImg);
     }
+  }
+
+  function defineSequenceAnimation(
+    scene,
+    state,
+    destinationScene,
+    destinationState,
+  ) {
+    scenes[scene][state].isSequenceAnimation = true;
+    scenes[scene][state].destinationScene = destinationScene;
+    scenes[scene][state].destinationState = destinationState;
   }
 
   p.setup = function () {
@@ -305,24 +344,77 @@ var game = function (p) {
 
     // initialize bathhouse main scene
 
-    populateFrames(bathhouse_spritesheet, 1, "bathhouse_main", "default", 3);
-    populateFrames(bathhouse_spritesheet, 2, "bathhouse_showers", "default", 3);
-    populateFrames(bathhouse_spritesheet, 3, "bathhouse_sauna", "default", 3);
-    populateFrames(bathhouse_spritesheet, 4, "bathhouse_exit", "default", 3);
-    populateFrames(bathhouse_spritesheet, 5, "shower", "default", 3);
+    populateFrames(
+      spritesheets.bathhouse.imgObj,
+      1,
+      "bathhouse_main",
+      "default",
+      3,
+    );
+    populateFrames(
+      spritesheets.bathhouse.imgObj,
+      2,
+      "bathhouse_showers",
+      "default",
+      3,
+    );
+    populateFrames(
+      spritesheets.bathhouse.imgObj,
+      3,
+      "bathhouse_sauna",
+      "default",
+      3,
+    );
+    populateFrames(
+      spritesheets.bathhouse.imgObj,
+      4,
+      "bathhouse_exit",
+      "default",
+      3,
+    );
+    populateFrames(spritesheets.bathhouse.imgObj, 5, "shower", "default", 3);
 
     // Initialize faucet and shower animation
-    populateFrames(faucet_spritesheet, 1, "shower", "faucetOn", 5);
-    populateFrames(shower_spritesheet, 1, "shower", "showerOn", 5);
+    populateFrames(spritesheets.faucet.imgObj, 1, "shower", "faucetOn", 5);
+    populateFrames(spritesheets.shower.imgObj, 1, "shower", "showerOn", 5);
 
     // Initialize jacuzzi
-    populateFrames(jacuzzi_spritesheet, 1, "jacuzzi", "default", 3);
-    populateFrames(jacuzzi_spritesheet, 2, "jacuzzi", "buttonPress", 3);
+    populateFrames(spritesheets.jacuzzi.imgObj, 1, "jacuzzi", "default", 3);
+    populateFrames(spritesheets.jacuzzi.imgObj, 2, "jacuzzi", "buttonPress", 3);
 
     //Initialize jacuzzi animation
-    populateFrames(jacuzzi_animations, 1, "jacuzzi", "bubble1", 4);
-    populateFrames(jacuzzi_animations, 2, "jacuzzi", "bubble2", 4);
-    populateFrames(jacuzzi_animations, 3, "jacuzzi", "bubble3", 4);
+    populateFrames(
+      spritesheets.jacuzzi_animation.imgObj,
+      1,
+      "jacuzzi",
+      "bubble1",
+      4,
+    );
+    populateFrames(
+      spritesheets.jacuzzi_animation.imgObj,
+      2,
+      "jacuzzi",
+      "bubble2",
+      4,
+    );
+    populateFrames(
+      spritesheets.jacuzzi_animation.imgObj,
+      3,
+      "jacuzzi",
+      "bubble3",
+      4,
+    );
+
+    // Initialize coldbath
+    populateFrames(spritesheets.coldbath.imgObj, 1, "coldbath", "default", 3);
+    populateFrames(
+      spritesheets.coldbath_animation.imgObj,
+      1,
+      "coldbath",
+      "animation",
+      14,
+    );
+    defineSequenceAnimation("coldbath", "animation", "coldbath", "default");
 
     //Initialize Game N Sprites
     calculateCanvasDimensions();
