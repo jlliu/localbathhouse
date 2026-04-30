@@ -35,7 +35,7 @@ canvas, video {
   margin: auto;
   /* background:blue; */
   /* opacity:.5; */
-  /* opacity:.3; */
+  opacity:.3;
   visibility: visible;
   position:absolute;
   width:550px;
@@ -50,11 +50,10 @@ canvas, video {
 		}
 
     #buttonContainer button{
-
       /* background:red; */
       position:absolute;
       cursor: pointer;
-      opacity:0 !important;
+      /* opacity:0 !important; */
     }
 
     /* Button CSS */
@@ -162,6 +161,13 @@ width: 106px;
     top: 175px;
   }
 
+  button#laundryButton{
+    width: 280px;
+    height: 205px;
+    top: 99px;
+    left: 136px;
+  }
+
 
 
   /* Bathhouse buttons */
@@ -248,6 +254,14 @@ width: 120px;
     top: 92px;
     right: 0px;
   }
+
+  button#toSaunaFromBathhouse{
+    width: 127px;
+    height: 245px;
+    top: 50px;
+    left: 211px;
+  }
+
 
   button#toLockerroomFromBathhouse{
     width: 104px;

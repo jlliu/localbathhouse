@@ -36,8 +36,11 @@ let buttons = [
 
 let buttonDisplacement = 0;
 
-let currentScene = "entrance";
-let currentState = "season1door1time1";
+// let currentScene = "entrance";
+// let currentState = "season1door1time1";
+
+let currentScene = "bathhouse_main";
+let currentState = "default";
 
 resetButtons();
 
@@ -81,6 +84,7 @@ let scenes = {
   jacuzzi: {},
   coldbath: {},
   mural: {},
+  sauna: {},
 };
 
 function goToScene(sceneName, stateName) {
@@ -139,6 +143,24 @@ function handleMuralChange(elementType) {
   }
 
   goToScene("mural", `s${muralState.s}fg${muralState.fg}bg${muralState.bg}`);
+}
+
+let saunaInterval;
+let saunaState = 1;
+function handleSaunaEntrance() {
+  saunaInterval = setInterval(function () {
+    if (saunaState + 1 < 16) {
+      saunaState += 1;
+      goToScene("sauna", saunaState);
+    } else {
+      clearInterval(saunaInterval);
+    }
+  }, 500);
+}
+
+function handleSaunaExit() {
+  clearInterval(saunaInterval);
+  saunaState = 1;
 }
 
 let entranceState = {
@@ -201,6 +223,7 @@ let spritesheets = {
   coldbath: { url: "img/coldbath_spritesheet.png", imgObj: {} },
   coldbath_animation: { url: "img/coldbath_animation.png", imgObj: {} },
   mural: { url: "img/mural_spritesheet.png", imgObj: {} },
+  sauna: { url: "img/sauna_spritesheet.png", imgObj: {} },
 };
 
 function resetButtons() {
@@ -653,6 +676,11 @@ var game = function (p) {
     }
 
     console.log(scenes["mural"]);
+
+    // Initialize sauna
+    for (var i = 1; i < 16; i++) {
+      populateFrames(spritesheets.sauna.imgObj, i, "sauna", i, 3);
+    }
 
     //Initialize Game N Sprites
     calculateCanvasDimensions();

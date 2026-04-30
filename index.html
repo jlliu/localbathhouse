@@ -106,6 +106,9 @@
 	<button data-scene="laundryCloseup"  class="top" onclick="goToScene('lockerroom_exit')"></button>
 
 
+		<button data-scene="laundryCloseup"  id="laundryButton" onclick="goToScene('laundryCloseup','added')"></button>
+
+
 
 <!--  Main bathhouse -->
 	<button data-scene="bathhouse_main"  class="right" onclick="goToScene('bathhouse_sauna')"></button>
@@ -127,11 +130,13 @@
 	<button data-scene="bathhouse_sauna"  class="right" onclick="goToScene('bathhouse_exit')"></button>
 	<button data-scene="bathhouse_sauna"  class="left" onclick="goToScene('bathhouse_main')"></button>
 
+		<button data-scene="bathhouse_sauna"  id="toSaunaFromBathhouse" onclick="goToScene('sauna', '1'); handleSaunaEntrance();"></button>
+
 	<!-- 3: exit door -->
 	<button data-scene="bathhouse_exit" class="right" onclick="goToScene('bathhouse_showers')"></button>
 	<button data-scene="bathhouse_exit"  class="left" onclick="goToScene('bathhouse_sauna')"></button>
 
-		<button data-scene="bathhouse_exit"  id="toLockerroomFromBathhouse" onclick="goToScene('lockerroom_exit')"></button>
+	<button data-scene="bathhouse_exit"  id="toLockerroomFromBathhouse" onclick="goToScene('lockerroom_exit')"></button>
 
 	<!-- 4: Shower zoom -->
 	<button data-scene="shower" class="right" onclick="goToScene('bathhouse_showers')"></button>
@@ -162,16 +167,21 @@
 
 	<!-- Mural -->
 
-
-
 	<button data-scene="mural"  class="bottom" onclick="goToScene('bathhouse_main')"></button>
 	<button data-scene="mural"  class="top" onclick="goToScene('bathhouse_main')"></button>
-
 
 	<button data-scene="mural"  id="muralBg" onclick="handleMuralChange('bg')"></button>
 	<button data-scene="mural"  id="muralSubject" onclick="handleMuralChange('s')"></button>
 	<button data-scene="mural"  id="muralForegroundL" onclick="handleMuralChange('fg')"></button>
 	<button data-scene="mural"  id="muralForegroundR" onclick="handleMuralChange('fg')"></button>
+
+
+<!-- Sauna -->
+		<button data-scene="sauna"  class="right" onclick="goToScene('bathhouse_sauna');handleSaunaExit();"></button>
+	<button data-scene="sauna"  class="left" onclick="goToScene('bathhouse_sauna');handleSaunaExit();"></button>
+	<button data-scene="sauna"  class="bottom" onclick="goToScene('bathhouse_sauna');handleSaunaExit();"></button>
+	<button data-scene="sauna"  class="top" onclick="goToScene('bathhouse_sauna'); handleSaunaExit();"></button>
+
 
 	</div>
 
