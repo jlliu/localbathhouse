@@ -36,8 +36,8 @@ let buttons = [
 
 let buttonDisplacement = 0;
 
-let currentScene = "bathhouse_main";
-let currentState = "default";
+let currentScene = "entrance";
+let currentState = "season1door1time1";
 
 resetButtons();
 
@@ -61,6 +61,18 @@ let bathhouse_scenes = [];
 // 4: Shower Zoom
 
 let scenes = {
+  entrance: {},
+  lobby_main: {},
+  lobby_lockerroom: {},
+  lobby_vending: {},
+  lobby_exit: {},
+  lockerroom_main: {},
+  lockerroom_lockers: {},
+  lockerroom_sinks: {},
+  lockerroom_exit: {},
+  lockers: {},
+  lockerCloseup: {},
+  laundryCloseup: {},
   bathhouse_main: {},
   bathhouse_showers: {},
   bathhouse_sauna: {},
@@ -68,9 +80,13 @@ let scenes = {
   shower: {},
   jacuzzi: {},
   coldbath: {},
+  mural: {},
 };
 
 function goToScene(sceneName, stateName) {
+  console.log("going to scene");
+  console.log(sceneName);
+  console.log(stateName);
   if (stateName == null) {
     stateName = "default";
   }
@@ -107,6 +123,61 @@ function startAnimation(scene, state, isSequenceAnimation) {
   }, 100);
 }
 
+let muralState = {
+  s: 1,
+  fg: 1,
+  bg: 1,
+};
+function handleMuralChange(elementType) {
+  //Update mural state
+  if (elementType == "s") {
+    muralState.s = ((muralState.s + 1) % 3) + 1;
+  } else if (elementType == "fg") {
+    muralState.fg = ((muralState.fg + 1) % 3) + 1;
+  } else if (elementType == "bg") {
+    muralState.bg = ((muralState.bg + 1) % 3) + 1;
+  }
+
+  goToScene("mural", `s${muralState.s}fg${muralState.fg}bg${muralState.bg}`);
+}
+
+let entranceState = {
+  season: 1,
+  door: 1,
+  time: 1,
+};
+
+// let entranceDoor = document.querySelector("#toLobbyFromEntrance");
+// entranceDoor.addEventListener("mouseenter", function (e) {
+//   e.stopPropagation();
+//   console.log("mouse enter event");
+//   entranceState.door = 2;
+//   goToScene(
+//     "entrance",
+//     `season${entranceState.season}door${entranceState.door}time${entranceState.time}`,
+//   );
+// });
+
+function openDoor() {
+  console.log("mouse enter event");
+  entranceState.door = 2;
+  goToScene(
+    "entrance",
+    `season${entranceState.season}door${entranceState.door}time${entranceState.time}`,
+  );
+}
+
+function closeDoor() {
+  console.log("close door event");
+  if (currentScene == "entrance") {
+    entranceState.door = 1;
+    goToScene(
+      "entrance",
+      `season${entranceState.season}door${entranceState.door}time${entranceState.time}`,
+    );
+  }
+}
+
 let showerState = 0;
 
 let animatingSequence = false;
@@ -119,6 +190,9 @@ let animationIndex = 0;
 let timeoutQueue = [];
 
 let spritesheets = {
+  entrance: { url: "img/entrance_spritesheet.png", imgObj: {} },
+  lobby: { url: "img/lobby_spritesheet.png", imgObj: {} },
+  lockerroom: { url: "img/lockerroom_spritesheet.png", imgObj: {} },
   bathhouse: { url: "img/bathhouse_spritesheet.png", imgObj: {} },
   faucet: { url: "img/faucet_spritesheet.png", imgObj: {} },
   shower: { url: "img/shower_spritesheet.png", imgObj: {} },
@@ -126,6 +200,7 @@ let spritesheets = {
   jacuzzi_animation: { url: "img/jacuzzi_animation.png", imgObj: {} },
   coldbath: { url: "img/coldbath_spritesheet.png", imgObj: {} },
   coldbath_animation: { url: "img/coldbath_animation.png", imgObj: {} },
+  mural: { url: "img/mural_spritesheet.png", imgObj: {} },
 };
 
 function resetButtons() {
@@ -342,6 +417,133 @@ var game = function (p) {
     // Split up spritesheet
     //Iterate through rows
 
+    // Initialize entrance
+    populateFrames(
+      spritesheets.entrance.imgObj,
+      1,
+      "entrance",
+      "season1door1time1",
+      3,
+    );
+    populateFrames(
+      spritesheets.entrance.imgObj,
+      2,
+      "entrance",
+      "season1door2time1",
+      3,
+    );
+    populateFrames(
+      spritesheets.entrance.imgObj,
+      3,
+      "entrance",
+      "season1door1time2",
+      3,
+    );
+    populateFrames(
+      spritesheets.entrance.imgObj,
+      4,
+      "entrance",
+      "season1door2time2",
+      3,
+    );
+
+    // Initialize lobby rooms
+
+    populateFrames(spritesheets.lobby.imgObj, 1, "lobby_main", "default", 3);
+    populateFrames(spritesheets.lobby.imgObj, 2, "lobby_exit", "default", 3);
+    populateFrames(spritesheets.lobby.imgObj, 3, "lobby_vending", "default", 3);
+    populateFrames(
+      spritesheets.lobby.imgObj,
+      4,
+      "lobby_lockerroom",
+      "default",
+      3,
+    );
+
+    // Initialize locker rooms
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      1,
+      "lockerroom_main",
+      "default",
+      3,
+    );
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      2,
+      "lockerroom_lockers",
+      "default",
+      3,
+    );
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      3,
+      "lockerroom_sinks",
+      "default",
+      3,
+    );
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      4,
+      "lockerroom_exit",
+      "default",
+      3,
+    );
+
+    populateFrames(spritesheets.lockerroom.imgObj, 5, "lockers", "default", 3);
+    populateFrames(spritesheets.lockerroom.imgObj, 6, "lockers", "open1", 3);
+    populateFrames(spritesheets.lockerroom.imgObj, 7, "lockers", "open2", 3);
+    populateFrames(spritesheets.lockerroom.imgObj, 8, "lockers", "open3", 3);
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      9,
+      "lockerCloseup",
+      "default",
+      3,
+    );
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      10,
+      "lockerCloseup",
+      "clothes1",
+      3,
+    );
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      11,
+      "lockerCloseup",
+      "clothes2",
+      3,
+    );
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      12,
+      "lockerCloseup",
+      "clothes3",
+      3,
+    );
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      13,
+      "lockerCloseup",
+      "clothes4",
+      3,
+    );
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      14,
+      "laundryCloseup",
+      "default",
+      3,
+    );
+    populateFrames(
+      spritesheets.lockerroom.imgObj,
+      15,
+      "laundryCloseup",
+      "added",
+      3,
+    );
+
     // initialize bathhouse main scene
 
     populateFrames(
@@ -416,6 +618,42 @@ var game = function (p) {
     );
     defineSequenceAnimation("coldbath", "animation", "coldbath", "default");
 
+    //Populate mural spritesheet (every combo is a state e.g. s1, fg1, bg1)
+    // How to translate 1-27 to these states???
+    for (var i = 0; i < 27; i++) {
+      let bg, fg, s;
+      if (i < 9) {
+        bg = 1;
+      } else if (i < 18) {
+        bg = 2;
+      } else if (i < 27) {
+        bg = 3;
+      }
+      if (i % 3 == 0) {
+        fg = 1;
+      } else if (i % 3 == 1) {
+        fg = 2;
+      } else if (i % 3 == 2) {
+        fg = 3;
+      }
+      if (Math.floor(i / 3) % 3 == 0) {
+        s = 1;
+      } else if (Math.floor(i / 3) % 3 == 1) {
+        s = 2;
+      } else if (Math.floor(i / 3) % 3 == 2) {
+        s = 3;
+      }
+      populateFrames(
+        spritesheets.mural.imgObj,
+        i + 1,
+        "mural",
+        `s${s}fg${fg}bg${bg}`,
+        3,
+      );
+    }
+
+    console.log(scenes["mural"]);
+
     //Initialize Game N Sprites
     calculateCanvasDimensions();
     // resizeButtons();
@@ -462,6 +700,8 @@ var game = function (p) {
     let stateToDraw = scenes[currentScene][currentState];
 
     p.image(stateToDraw[animationIndex], 0, 0);
+
+    // p.image(spritesheets.mural.imgObj, 0, 0);
 
     // if (animatingSequence) {
     //   console.log("drawing animating sequence");

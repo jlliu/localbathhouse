@@ -31,11 +31,11 @@ canvas, video {
   transition: opacity 1s;
 }
 
-		#buttonContainer{
+	#buttonContainer{
   margin: auto;
   /* background:blue; */
   /* opacity:.5; */
-  opacity:.3;
+  /* opacity:.3; */
   visibility: visible;
   position:absolute;
   width:550px;
@@ -54,7 +54,7 @@ canvas, video {
       /* background:red; */
       position:absolute;
       cursor: pointer;
-      /* opacity:0 !important; */
+      opacity:0 !important;
     }
 
     /* Button CSS */
@@ -86,6 +86,87 @@ canvas, video {
     bottom:0px;
     left:0px;
   }
+
+  /* Entrance button */
+
+  button#toLobbyFromEntrance{
+    width: 177px;
+    height: 342px;
+    left: 186px;
+    top: 58px;
+  }
+
+  /* Lobby buttons */
+
+
+  button#toLockerroomFromLobby{
+    width: 138px;
+    height: 238px;
+    left: 204px;
+    top: 37px;
+  }
+
+  button#toShoeLockers{
+    width: 138px;
+    height: 150px;
+    left: 10px;
+    top: 188px;
+  }
+
+  button#toFishtank{
+    width: 108px;
+    height: 99px;
+    right: 0px;
+    top: 128px;
+  }
+
+  button#toVending{
+    width: 141px;
+    height: 243px;
+    left: 203px;
+    top: 69px;
+  }
+
+
+
+
+
+
+    button#toEntranceFromLobby{
+width: 138px;
+    height: 268px;
+    left: 204px;
+    top: 37px;
+  }
+
+  /* Lockerroom buttons */
+
+    button#toLobbyFromLockerroom{
+width: 106px;
+    height: 207px;
+    left: 217px;
+    top: 69px;
+  }
+
+  button#toLockers{
+    width: 342px;
+    height: 287px;
+    left: 144px;
+    top: 55px;
+  }
+
+  button#toLaundry{
+    width: 89px;
+    height: 117px;
+    left: 353px;
+    top: 175px;
+  }
+
+
+
+  /* Bathhouse buttons */
+
+
   button#toShowers{
     width: 388px;
     height: 244px;
@@ -129,4 +210,56 @@ canvas, video {
     height: 176px;
     top: 189px;
     left: 36px;
+  }
+
+
+     button#toMural{
+width: 431px;
+    height: 160px;
+    top: 0px;
+    left: 60px;
+  }
+
+
+     button#muralBg{
+    width: 550px;
+    height: 289px;
+    top: 52px;
+    left: 0;
+  }
+
+   button#muralSubject{
+width: 200px;
+    height: 200px;
+    top: 97px;
+    left: 175px;
+  }
+
+   button#muralForegroundL{
+    width: 120px;
+    height: 248px;
+    top: 92px;
+    left: 0;
+  }
+
+    button#muralForegroundR{
+width: 120px;
+    height: 248px;
+    top: 92px;
+    right: 0px;
+  }
+
+  button#toLockerroomFromBathhouse{
+    width: 104px;
+    height: 208px;
+    top: 58px;
+    left: 225px;
+  }
+
+
+    button#toBathhouseFromLockerroom{
+width: 104px;
+    height: 204px;
+    top: 69px;
+    left: 223px;
   }

@@ -30,13 +30,92 @@
 <button id="sinkRButton"></button> -->
 
 
-<!-- 0:  Main bathhouse -->
+
+
+<!-- SCENES!!!!!!!!!!!! -->
+
+ <!-- Entrance -->
+
+ 	<button data-scene="entrance"  id="toLobbyFromEntrance" onmouseenter="openDoor()" onmouseleave="closeDoor()" onclick="goToScene('lobby_main')"></button>
+
+ <!-- Lobby -->
+	<button data-scene="lobby_main"  class="right" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="lobby_main" class="left" onclick="goToScene('lobby_lockerroom')"></button>
+
+	<button data-scene="lobby_vending"  class="right" onclick="goToScene('lobby_exit')"></button>
+	<button data-scene="lobby_vending" class="left" onclick="goToScene('lobby_main')"></button>
+
+	<button data-scene="lobby_vending" id="toFishtank"></button>
+	<button data-scene="lobby_vending" id="toVending"></button>
+
+	<button data-scene="lobby_lockerroom"  class="right" onclick="goToScene('lobby_main')"></button>
+	<button data-scene="lobby_lockerroom" class="left" onclick="goToScene('lobby_exit')"></button>
+
+	<button data-scene="lobby_lockerroom" id="toLockerroomFromLobby" onclick="goToScene('lockerroom_main')"></button>
+
+	<button data-scene="lobby_lockerroom" id="toShoeLockers" ></button>
+
+
+	<button data-scene="lobby_exit"  class="right" onclick="goToScene('lobby_lockerroom')"></button>
+	<button data-scene="lobby_exit" class="left" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="lobby_exit" id="toEntranceFromLobby" onclick="goToScene('entrance','season1door1time1')"></button>
+
+<!-- Locker room -->
+
+<!-- Locker room main -->
+	<button data-scene="lockerroom_main"  class="right" onclick="goToScene('lockerroom_sinks')"></button>
+	<button data-scene="lockerroom_main" class="left" onclick="goToScene('lockerroom_lockers')"></button>
+
+		<button data-scene="lockerroom_main" id="toBathhouseFromLockerroom" onclick="goToScene('bathhouse_main')"></button>
+
+	<!-- Locker room lockers -->
+
+	<button data-scene="lockerroom_lockers"  class="right" onclick="goToScene('lockerroom_main')"></button>
+	<button data-scene="lockerroom_lockers" class="left" onclick="goToScene('lockerroom_exit')"></button>
+
+	<button data-scene="lockerroom_lockers" id="toLockers" onclick="goToScene('lockers')"></button>
+
+	<!-- Lockers -->
+
+		<button data-scene="lockers"  class="right" onclick="goToScene('lockerroom_lockers')"></button>
+	<button data-scene="lockers"  class="left" onclick="goToScene('lockerroom_lockers')"></button>
+	<button data-scene="lockers"  class="bottom" onclick="goToScene('lockerroom_lockers')"></button>
+	<button data-scene="lockers"  class="top" onclick="goToScene('lockerroom_lockers')"></button>
+
+  <!-- Todo add individual locker functionality -->
+
+		<!-- Locker room sinks -->
+
+	<button data-scene="lockerroom_sinks"  class="right" onclick="goToScene('lockerroom_exit')"></button>
+	<button data-scene="lockerroom_sinks" class="left" onclick="goToScene('lockerroom_main')"></button>
+
+			<!-- Locker room exit -->
+
+	<button data-scene="lockerroom_exit"  class="right" onclick="goToScene('lockerroom_lockers')"></button>
+	<button data-scene="lockerroom_exit" class="left" onclick="goToScene('lockerroom_sinks')"></button>
+
+	<button data-scene="lockerroom_exit"  id="toLobbyFromLockerroom" onclick="goToScene('lobby_vending')"></button>
+
+	<button data-scene="lockerroom_exit"  id="toLaundry" onclick="goToScene('laundryCloseup')"></button>
+
+	<!-- Laundry Closeup -->
+
+			<button data-scene="laundryCloseup"  class="right" onclick="goToScene('lockerroom_exit')"></button>
+	<button data-scene="laundryCloseup"  class="left" onclick="goToScene('lockerroom_exit')"></button>
+	<button data-scene="laundryCloseup"  class="bottom" onclick="goToScene('lockerroom_exit')"></button>
+	<button data-scene="laundryCloseup"  class="top" onclick="goToScene('lockerroom_exit')"></button>
+
+
+
+<!--  Main bathhouse -->
 	<button data-scene="bathhouse_main"  class="right" onclick="goToScene('bathhouse_sauna')"></button>
 	<button data-scene="bathhouse_main" class="left" onclick="goToScene('bathhouse_showers')"></button>
 
 	<button data-scene="bathhouse_main" id="toJacuzzi" onclick="goToScene('jacuzzi')"></button>
 
-		<button data-scene="bathhouse_main" id="toColdbath" onclick="goToScene('coldbath')"></button>
+	<button data-scene="bathhouse_main" id="toColdbath" onclick="goToScene('coldbath')"></button>
+
+	<button data-scene="bathhouse_main" id="toMural" onclick="goToScene('mural','s1fg1bg1')"></button>
 
 	<!-- 1:  Showers -->
 	<button data-scene="bathhouse_showers"  class="right" onclick="goToScene('bathhouse_main')"></button>
@@ -51,6 +130,8 @@
 	<!-- 3: exit door -->
 	<button data-scene="bathhouse_exit" class="right" onclick="goToScene('bathhouse_showers')"></button>
 	<button data-scene="bathhouse_exit"  class="left" onclick="goToScene('bathhouse_sauna')"></button>
+
+		<button data-scene="bathhouse_exit"  id="toLockerroomFromBathhouse" onclick="goToScene('lockerroom_exit')"></button>
 
 	<!-- 4: Shower zoom -->
 	<button data-scene="shower" class="right" onclick="goToScene('bathhouse_showers')"></button>
@@ -78,6 +159,19 @@
 	<button data-scene="coldbath"  class="top" onclick="goToScene('bathhouse_main')"></button>
 
 	<button data-scene="coldbath" id="coldbathPool" ></button>
+
+	<!-- Mural -->
+
+
+
+	<button data-scene="mural"  class="bottom" onclick="goToScene('bathhouse_main')"></button>
+	<button data-scene="mural"  class="top" onclick="goToScene('bathhouse_main')"></button>
+
+
+	<button data-scene="mural"  id="muralBg" onclick="handleMuralChange('bg')"></button>
+	<button data-scene="mural"  id="muralSubject" onclick="handleMuralChange('s')"></button>
+	<button data-scene="mural"  id="muralForegroundL" onclick="handleMuralChange('fg')"></button>
+	<button data-scene="mural"  id="muralForegroundR" onclick="handleMuralChange('fg')"></button>
 
 	</div>
 
