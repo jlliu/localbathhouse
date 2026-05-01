@@ -75,7 +75,7 @@
 	<button data-scene="lobby_lockerroom"  class="right" onclick="goToScene('lobby_main')"></button>
 	<button data-scene="lobby_lockerroom" class="left" onclick="goToScene('lobby_exit')"></button>
 
-	<button data-scene="lobby_lockerroom" id="toLockerroomFromLobby" onclick="goToScene('lockerroom_main')"></button>
+	<button data-scene="lobby_lockerroom" id="toLockerroomFromLobby" onclick="handleGoToLockerroom()"></button>
 
 	<button data-scene="lobby_lockerroom" id="toShoelockerFromLobbyLockerroom" onclick="handleShoelockerVisit()"></button>
 
@@ -118,7 +118,7 @@
 	<button data-scene="lockerroom_main"  class="right" onclick="goToScene('lockerroom_sinks')"></button>
 	<button data-scene="lockerroom_main" class="left" onclick="goToScene('lockerroom_lockers')"></button>
 
-		<button data-scene="lockerroom_main" id="toBathhouseFromLockerroom" onclick="goToScene('bathhouse_main')"></button>
+		<button data-scene="lockerroom_main" id="toBathhouseFromLockerroom" onclick="handleGoToBathhouse()"></button>
 
 	<!-- Locker room lockers -->
 
@@ -171,7 +171,7 @@
 	<button data-scene="lockerroom_exit"  class="right" onclick="goToScene('lockerroom_lockers')"></button>
 	<button data-scene="lockerroom_exit" class="left" onclick="goToScene('lockerroom_sinks')"></button>
 
-	<button data-scene="lockerroom_exit"  id="toLobbyFromLockerroom" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="lockerroom_exit"  id="toLobbyFromLockerroom" onclick="handleGoToLobbyFromLockerroom()"></button>
 
 	<button data-scene="lockerroom_exit"  id="toLaundry" onclick="goToScene('laundryCloseup')"></button>
 
@@ -191,9 +191,9 @@
 	<button data-scene="bathhouse_main"  class="right" onclick="goToScene('bathhouse_sauna')"></button>
 	<button data-scene="bathhouse_main" class="left" onclick="goToScene('bathhouse_showers')"></button>
 
-	<button data-scene="bathhouse_main" id="toJacuzzi" onclick="goToScene('jacuzzi')"></button>
+	<button data-scene="bathhouse_main" id="toJacuzzi" onclick="handleGoToBath('jacuzzi')"></button>
 
-	<button data-scene="bathhouse_main" id="toColdbath" onclick="goToScene('coldbath')"></button>
+	<button data-scene="bathhouse_main" id="toColdbath" onclick="handleGoToBath('coldbath')"></button>
 
 	<button data-scene="bathhouse_main" id="toMural" onclick="goToScene('mural','s1fg1bg1')"></button>
 

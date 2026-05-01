@@ -198,6 +198,16 @@ function handleShoesButton() {
   goToScene("shoelockerCloseup", shoesState);
 }
 
+function handleGoToLockerroom() {
+  if (shoelockerFilled) {
+    goToScene("lockerroom_main");
+  } else {
+    window.alert(
+      "Please put leave your shoes in the shoe locker before entering the locker room",
+    );
+  }
+}
+
 // Cloths locker logic
 let assignedClothesLocker = Math.floor(Math.random() * 3);
 let lockerFilled = false;
@@ -267,6 +277,30 @@ function handleMirrorButton() {
         }
       }, 2000);
     }
+  }
+}
+
+function handleGoToBathhouse() {
+  if (lockerFilled) {
+    goToScene("bathhouse_main");
+  } else {
+    window.alert("Please remove all clothing before entering the baths");
+  }
+}
+
+function handleGoToBath(bathType) {
+  if (showered) {
+    goToScene(bathType);
+  } else {
+    window.alert("Please shower before entering baths.");
+  }
+}
+
+function handleGoToLobbyFromLockerroom() {
+  if (lockerFilled) {
+    window.alert("Please get dressed before returning to the lobby.");
+  } else {
+    goToScene("lobby_vending");
   }
 }
 
@@ -392,11 +426,14 @@ function resetButtons() {
 
 // Button actions
 
+let showered = false;
+
 function updateShowerState() {
   showerState = (showerState + 1) % 3;
   if (showerState == 1) {
     goToScene("shower", "faucetOn");
   } else if (showerState == 2) {
+    showered = true;
     goToScene("shower", "showerOn");
   } else {
     console.log("go to scene");
@@ -590,7 +627,6 @@ var game = function (p) {
   }
 
   p.setup = function () {
-    initializeGame();
     // put setup code here
     // p.pixelDensity(1);
     // calculateCanvasDimensions(p);
@@ -967,6 +1003,7 @@ var game = function (p) {
     // resizeButtonContainer();
 
     startAnimation(currentScene, currentState);
+    initializeGame();
   };
 
   p.draw = function () {
