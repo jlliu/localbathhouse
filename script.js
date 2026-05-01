@@ -214,6 +214,8 @@ let lockerFilled = false;
 
 let clothesState = 0;
 
+let newLockerCloseupVisit = false;
+
 function handleLockersVisit() {
   let destinationState = lockerFilled ? "default" : assignedClothesLocker;
   goToScene("lockers", destinationState);
@@ -222,18 +224,29 @@ function handleLockersVisit() {
 function handleLockerCloseupVisit(lockerNum) {
   // Show locker filled if it is, otherwise empty
   if (lockerNum == assignedClothesLocker) {
+    newLockerCloseupVisit = true;
     let destinationState = lockerFilled ? clothesState : 0;
     goToScene("lockerCloseup", destinationState);
   }
 }
 
 function handleClothesButton() {
-  // Show locker filled if it is, otherwise empty
-  let destinationState = lockerFilled ? clothesState : "default";
-  clothesState = (clothesState + 1) % 4;
-  // locker is filled unless clothesState is zero
-  lockerFilled = clothesState != 0;
-  goToScene("lockerCloseup", clothesState);
+  if (newLockerCloseupVisit && clothesState != 0) {
+    // If locker already filled remove clothes first
+    clothesState = 0;
+    // locker is filled unless clothesState is zero
+    lockerFilled = false;
+    goToScene("lockerCloseup", clothesState);
+  } else {
+    // Increment clothes otherwise
+    let destinationState = lockerFilled ? clothesState : "default";
+    clothesState = (clothesState + 1) % 4;
+    // locker is filled unless clothesState is zero
+    lockerFilled = clothesState != 0;
+    goToScene("lockerCloseup", clothesState);
+  }
+
+  newLockerCloseupVisit = false;
 }
 
 // Sink logic
