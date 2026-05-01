@@ -45,20 +45,72 @@
 	<button data-scene="lobby_vending"  class="right" onclick="goToScene('lobby_exit')"></button>
 	<button data-scene="lobby_vending" class="left" onclick="goToScene('lobby_main')"></button>
 
-	<button data-scene="lobby_vending" id="toFishtank"></button>
-	<button data-scene="lobby_vending" id="toVending"></button>
+
+	<button data-scene="lobby_vending" id="toFishtankFromVending" onclick="goToScene('fishtank')"></button>
+	<button data-scene="lobby_vending" id="toVending" onclick="goToScene('vendingOptions')"></button>
+
+	<!-- vending -->
+
+		<button data-scene="vendingOptions"  class="right" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="vendingOptions" class="left" onclick="goToScene('lobby_vending')"></button>
+
+	<button data-scene="vendingOptions" id="vendingOption1" class="vendingOption" onmousedown="pressVendingButton(1)" onmouseleave="leaveVendingButton(1)"  ></button>
+	<button data-scene="vendingOptions" id="vendingOption2" class="vendingOption" onmousedown="pressVendingButton(2)" onmouseleave="leaveVendingButton(2)"  ></button>
+	<button data-scene="vendingOptions" id="vendingOption3" class="vendingOption" onmousedown="pressVendingButton(3)" onmouseleave="leaveVendingButton(3)"  ></button>
+	<button data-scene="vendingOptions" id="vendingOption4" class="vendingOption" onmousedown="pressVendingButton(4)" onmouseleave="leaveVendingButton(4)"  ></button>
+	<button data-scene="vendingOptions" id="vendingOption5" class="vendingOption" onmousedown="pressVendingButton(5)" onmouseleave="leaveVendingButton(5)"  ></button>
+	<button data-scene="vendingOptions" id="vendingOption6" class="vendingOption" onmousedown="pressVendingButton(6)" onmouseleave="leaveVendingButton(6)"  ></button>
+	<button data-scene="vendingOptions" id="vendingOption7" class="vendingOption" onmousedown="pressVendingButton(7)" onmouseleave="leaveVendingButton(7)"  ></button>
+	<button data-scene="vendingOptions" id="vendingOption8" class="vendingOption" onmousedown="pressVendingButton(8)" onmouseleave="leaveVendingButton(8)"  ></button>
+
+
+	<button data-scene="vendingResults"  class="right" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="vendingResults" class="left" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="vendingResults" class="bottom" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="vendingResults" class="top" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="vendingResults" id="drinkButton" onclick="handleDrinkButton()"></button>
+
+
 
 	<button data-scene="lobby_lockerroom"  class="right" onclick="goToScene('lobby_main')"></button>
 	<button data-scene="lobby_lockerroom" class="left" onclick="goToScene('lobby_exit')"></button>
 
 	<button data-scene="lobby_lockerroom" id="toLockerroomFromLobby" onclick="goToScene('lockerroom_main')"></button>
 
-	<button data-scene="lobby_lockerroom" id="toShoeLockers" ></button>
+	<button data-scene="lobby_lockerroom" id="toShoelockerFromLobbyLockerroom" onclick="handleShoelockerVisit()"></button>
+
+	<!-- shoelocker -->
+	<button data-scene="shoelocker"  class="right" onclick="goToScene('lobby_lockerroom')"></button>
+	<button data-scene="shoelocker" class="left" onclick="goToScene('lobby_lockerroom')"></button>
+
+	<button data-scene="shoelocker" id="shoelocker1button" onclick="handleShoelockerCloseupVisit(1)"></button>
+	<button data-scene="shoelocker" id="shoelocker2button" onclick="handleShoelockerCloseupVisit(2)"></button>
+	<button data-scene="shoelocker" id="shoelocker3button" onclick="handleShoelockerCloseupVisit(3)"></button>
+	<button data-scene="shoelocker" id="shoelocker4button" onclick="handleShoelockerCloseupVisit(4)"></button>
+
+	<button data-scene="shoelockerCloseup"  class="right" onclick="handleShoelockerVisit()"></button>
+	<button data-scene="shoelockerCloseup"  class="left" onclick="handleShoelockerVisit()"></button>
+	<button data-scene="shoelockerCloseup"  class="bottom" onclick="handleShoelockerVisit()"></button>
+	<button data-scene="shoelockerCloseup"  class="top" onclick="handleShoelockerVisit()"></button>
+
+		<button data-scene="shoelockerCloseup"  id="shoesButton" onclick="handleShoesButton()"></button>
+
+
 
 
 	<button data-scene="lobby_exit"  class="right" onclick="goToScene('lobby_lockerroom')"></button>
 	<button data-scene="lobby_exit" class="left" onclick="goToScene('lobby_vending')"></button>
 	<button data-scene="lobby_exit" id="toEntranceFromLobby" onclick="goToScene('entrance','season1door1time1')"></button>
+
+	<button data-scene="lobby_exit" id="toFishtankFromExit" onclick="goToScene('fishtank')"></button>
+	<button data-scene="lobby_exit" id="toShoelockerFromLobbyExit" onclick="handleShoelockerVisit()"></button>
+
+	<!-- fishtank -->
+
+	<button data-scene="fishtank"  class="right" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="fishtank"  class="left" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="fishtank"  class="bottom" onclick="goToScene('lobby_vending')"></button>
+	<button data-scene="fishtank"  class="top" onclick="goToScene('lobby_vending')"></button>
 
 <!-- Locker room -->
 
@@ -73,7 +125,10 @@
 	<button data-scene="lockerroom_lockers"  class="right" onclick="goToScene('lockerroom_main')"></button>
 	<button data-scene="lockerroom_lockers" class="left" onclick="goToScene('lockerroom_exit')"></button>
 
-	<button data-scene="lockerroom_lockers" id="toLockers" onclick="goToScene('lockers')"></button>
+	<button data-scene="lockerroom_lockers" id="toLockers" onclick="handleLockersVisit()"></button>
+
+
+
 
 	<!-- Lockers -->
 
@@ -82,12 +137,34 @@
 	<button data-scene="lockers"  class="bottom" onclick="goToScene('lockerroom_lockers')"></button>
 	<button data-scene="lockers"  class="top" onclick="goToScene('lockerroom_lockers')"></button>
 
+
+	<button data-scene="lockers" id="locker1button" onclick="handleLockerCloseupVisit(1)"></button>
+	<button data-scene="lockers" id="locker2button" onclick="handleLockerCloseupVisit(2)"></button>
+	<button data-scene="lockers" id="locker3button" onclick="handleLockerCloseupVisit(3)"></button>
+
+	<!-- Locker closeup -->
+
+	<button data-scene="lockerCloseup"  class="right" onclick="handleLockersVisit()"></button>
+	<button data-scene="lockerCloseup"  class="left" onclick="handleLockersVisit()"></button>
+	<button data-scene="lockerCloseup"  id="clothesButton" onclick="handleClothesButton()"></button>
+
+
   <!-- Todo add individual locker functionality -->
 
 		<!-- Locker room sinks -->
 
 	<button data-scene="lockerroom_sinks"  class="right" onclick="goToScene('lockerroom_exit')"></button>
 	<button data-scene="lockerroom_sinks" class="left" onclick="goToScene('lockerroom_main')"></button>
+
+	<button data-scene="lockerroom_sinks" id="toSinks" onclick="goToScene('sinks','mirror3sinkLfalsesinkRfalse')"></button>
+
+
+		<button data-scene="sinks"  class="right" onclick="goToScene('lockerroom_sinks')"></button>
+	<button data-scene="sinks"  class="left" onclick="goToScene('lockerroom_sinks')"></button>
+	<button data-scene="sinks"  class="bottom" onclick="goToScene('lockerroom_sinks')"></button>
+	<button data-scene="sinks" id="mirrorButton" onclick="handleMirrorButton()"></button>
+	<button data-scene="sinks" id="sinkLButton" onclick="handleSinkButton('L')"></button>
+	<button data-scene="sinks" id="sinkRButton" onclick="handleSinkButton('R')"></button>
 
 			<!-- Locker room exit -->
 
@@ -100,17 +177,17 @@
 
 	<!-- Laundry Closeup -->
 
-			<button data-scene="laundryCloseup"  class="right" onclick="goToScene('lockerroom_exit')"></button>
+	<button data-scene="laundryCloseup"  class="right" onclick="goToScene('lockerroom_exit')"></button>
 	<button data-scene="laundryCloseup"  class="left" onclick="goToScene('lockerroom_exit')"></button>
 	<button data-scene="laundryCloseup"  class="bottom" onclick="goToScene('lockerroom_exit')"></button>
 	<button data-scene="laundryCloseup"  class="top" onclick="goToScene('lockerroom_exit')"></button>
 
 
-		<button data-scene="laundryCloseup"  id="laundryButton" onclick="goToScene('laundryCloseup','added')"></button>
+	<button data-scene="laundryCloseup"  id="laundryButton" onclick="goToScene('laundryCloseup','added')"></button>
 
 
 
-<!--  Main bathhouse -->
+	<!--  Main bathhouse -->
 	<button data-scene="bathhouse_main"  class="right" onclick="goToScene('bathhouse_sauna')"></button>
 	<button data-scene="bathhouse_main" class="left" onclick="goToScene('bathhouse_showers')"></button>
 

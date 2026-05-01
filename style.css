@@ -13,6 +13,9 @@ body {
   overflow:hidden;
   color:white;
   /* pointer-events:none; */
+  background-image: url("img/entrance_tile.png");
+  background-repeat: repeat;
+  background-size: 200px;
 }
 
 body#experimental{
@@ -35,7 +38,8 @@ canvas, video {
   margin: auto;
   /* background:blue; */
   /* opacity:.5; */
-  opacity:.3;
+  /* opacity:.3; */
+  opacity:1;
   visibility: visible;
   position:absolute;
   width:550px;
@@ -47,13 +51,15 @@ canvas, video {
   transition: opacity 1s;
   z-index:1;
 
-		}
+  background:url('img/Loading.png');
+
+	}
 
     #buttonContainer button{
       /* background:red; */
       position:absolute;
       cursor: pointer;
-      /* opacity:0 !important; */
+      opacity:0 !important;
     }
 
     /* Button CSS */
@@ -105,18 +111,63 @@ canvas, video {
     top: 37px;
   }
 
-  button#toShoeLockers{
+  button#toShoelockerFromLobbyExit{
+    width: 118px;
+    height: 138px;
+    right: 0px;
+    top: 202px;
+  }
+
+  button#toShoelockerFromLobbyLockerroom{
     width: 138px;
     height: 150px;
     left: 10px;
     top: 188px;
   }
 
-  button#toFishtank{
+  button#shoelocker1button{
+    width: 236px;
+    height: 200px;
+    left: 38px;
+    top: 0px;
+  }
+  button#shoelocker2button{
+    width: 236px;
+    height: 200px;
+    left: 277px;
+    top: 0px;
+  }
+  button#shoelocker3button{
+    width: 236px;
+    height: 200px;
+    left: 38px;
+    bottom: 0px;
+  }
+  button#shoelocker4button{
+    width: 236px;
+    height: 200px;
+    left: 277px;
+    bottom: 0px;
+  }
+  button#shoesButton{
+    width: 349px;
+    height: 351px;
+    left: 94px;
+    bottom: 14px;
+  }
+
+  button#toFishtankFromVending{
     width: 108px;
     height: 99px;
     right: 0px;
     top: 128px;
+  }
+
+   button#toFishtankFromExit{
+    width: 138px;
+    height: 107px;
+    left: 0px;
+    top: 90px;
   }
 
   button#toVending{
@@ -126,6 +177,63 @@ canvas, video {
     top: 69px;
   }
 
+  button.vendingOption{
+    width: 55px;
+    height: 39px;
+  }
+
+    button#vendingOption1{
+    left: 124px;
+    top: 157px;
+  }
+
+
+    button#vendingOption2{
+    left: 206px;
+    top: 157px;
+  }
+
+
+    button#vendingOption3{
+    left: 291px;
+    top: 157px;
+  }
+
+
+    button#vendingOption4{
+    left: 372px;
+    top: 157px;
+  }
+
+      button#vendingOption5{
+    left: 124px;
+    top: 340px;
+  }
+
+
+    button#vendingOption6{
+    left: 206px;
+    top: 340px;
+  }
+
+
+    button#vendingOption7{
+    left: 291px;
+    top: 340px;
+  }
+
+
+    button#vendingOption8{
+    left: 372px;
+    top: 340px;
+  }
+
+  button#drinkButton{
+    width: 350px;
+    height: 130px;
+    left: 100px;
+    bottom: 43px;
+  }
 
 
 
@@ -154,6 +262,32 @@ width: 106px;
     top: 55px;
   }
 
+    button#locker1button{
+    width: 163px;
+    height: 332px;
+    left: 29px;
+    top: 0;
+  }
+     button#locker2button{
+    width: 163px;
+    height: 332px;
+    left: 194px;
+    top: 0;
+  }
+     button#locker3button{
+    width: 163px;
+    height: 332px;
+    left: 361px;
+    top: 0;
+  }
+
+  button#clothesButton{
+    width: 185px;
+    height: 161px;
+    left: 173px;
+    bottom: 9px;
+  }
+
   button#toLaundry{
     width: 89px;
     height: 117px;
@@ -167,6 +301,35 @@ width: 106px;
     top: 99px;
     left: 136px;
   }
+
+   button#toSinks{
+    width: 331px;
+    height: 241px;
+    top: 50px;
+    left: 109px;
+  }
+
+  button#sinkLButton{
+width: 54px;
+    height: 70px;
+    top: 137px;
+    left: 110px;
+  }
+
+    button#sinkRButton{
+      width: 54px;
+    height: 70px;
+    top: 137px;
+    left: 390px;
+  }
+
+  button#mirrorButton{
+    width: 550px;
+    height: 218px;
+    top: 0px;
+    left: 0px;
+  }
+
 
 
 

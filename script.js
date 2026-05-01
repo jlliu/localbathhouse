@@ -1,5 +1,7 @@
 // Game N: Template for any game number
 
+let finishedLoading = false;
+
 let sound = {
   sinkL: new Tone.Player(`sound/sinkL.mov`).toDestination(),
   sinkR: new Tone.Player(`sound/sinkR.mov`).toDestination(),
@@ -36,11 +38,11 @@ let buttons = [
 
 let buttonDisplacement = 0;
 
-// let currentScene = "entrance";
-// let currentState = "season1door1time1";
+let currentScene = "entrance";
+let currentState = "season1door1time1";
 
-let currentScene = "bathhouse_main";
-let currentState = "default";
+// let currentScene = "lockerroom_main";
+// let currentState = "default";
 
 resetButtons();
 
@@ -68,7 +70,12 @@ let scenes = {
   lobby_main: {},
   lobby_lockerroom: {},
   lobby_vending: {},
+  vendingOptions: {},
+  vendingResults: {},
   lobby_exit: {},
+  fishtank: {},
+  shoelocker: {},
+  shoelockerCloseup: {},
   lockerroom_main: {},
   lockerroom_lockers: {},
   lockerroom_sinks: {},
@@ -76,6 +83,7 @@ let scenes = {
   lockers: {},
   lockerCloseup: {},
   laundryCloseup: {},
+  sinks: {},
   bathhouse_main: {},
   bathhouse_showers: {},
   bathhouse_sauna: {},
@@ -125,6 +133,141 @@ function startAnimation(scene, state, isSequenceAnimation) {
       goToScene(destinationScene, destinationState);
     }
   }, 100);
+}
+
+// Scene specific data and handlers
+
+//Vending machine logic
+let drinkVending = false;
+function pressVendingButton(num) {
+  console.log("mouse enter event");
+  if (!drinkVending) {
+    drinkVending = true;
+    goToScene("vendingOptions", num);
+    let resultNum;
+    if (num == 1 || num == 2) {
+      resultNum = 1;
+    } else if (num == 3 || num == 4) {
+      resultNum = 2;
+    } else if (num == 5) {
+      resultNum = 3;
+    } else if (num == 6) {
+      resultNum = 4;
+    } else if (num == 7 || num == 8) {
+      resultNum = 5;
+    }
+    setTimeout(function () {
+      goToScene("vendingResults", resultNum);
+      drinkVending = false;
+    }, 2000);
+  }
+}
+
+function leaveVendingButton(num) {
+  // goToScene("vendingOptions", "default");
+}
+
+function handleDrinkButton() {
+  goToScene("vendingResults", 0);
+}
+
+// Shoelocker logic
+let assignedShoelocker = Math.floor(Math.random() * 4) + 1;
+let shoelockerFilled = false;
+let shoesState = 0;
+
+function handleShoelockerVisit() {
+  let destinationState = shoelockerFilled ? "default" : assignedShoelocker;
+  goToScene("shoelocker", destinationState);
+}
+
+function handleShoelockerCloseupVisit(lockerNum) {
+  // Show locker filled if it is, otherwise empty
+  if (lockerNum == assignedShoelocker) {
+    let destinationState = shoelockerFilled ? shoesState : 0;
+    goToScene("shoelockerCloseup", destinationState);
+  }
+}
+
+function handleShoesButton() {
+  // Show locker filled if it is, otherwise empty
+  let destinationState = shoelockerFilled ? shoesState : "default";
+  shoesState = (shoesState + 1) % 10;
+  // locker is filled unless clothesState is zero
+  shoelockerFilled = shoesState != 0;
+  goToScene("shoelockerCloseup", shoesState);
+}
+
+// Cloths locker logic
+let assignedClothesLocker = Math.floor(Math.random() * 3);
+let lockerFilled = false;
+
+let clothesState = 0;
+
+function handleLockersVisit() {
+  let destinationState = lockerFilled ? "default" : assignedClothesLocker;
+  goToScene("lockers", destinationState);
+}
+
+function handleLockerCloseupVisit(lockerNum) {
+  // Show locker filled if it is, otherwise empty
+  if (lockerNum == assignedClothesLocker) {
+    let destinationState = lockerFilled ? clothesState : 0;
+    goToScene("lockerCloseup", destinationState);
+  }
+}
+
+function handleClothesButton() {
+  // Show locker filled if it is, otherwise empty
+  let destinationState = lockerFilled ? clothesState : "default";
+  clothesState = (clothesState + 1) % 4;
+  // locker is filled unless clothesState is zero
+  lockerFilled = clothesState != 0;
+  goToScene("lockerCloseup", clothesState);
+}
+
+// Sink logic
+let sinkState = {
+  mirror: 3,
+  sinkL: false,
+  sinkR: false,
+};
+let mirrorInterval;
+function handleSinkButton(sink) {
+  console.log("handle sink button");
+  if (sink == "L") {
+    sinkState.sinkL = !sinkState.sinkL;
+  } else if (sink == "R") {
+    sinkState.sinkR = !sinkState.sinkR;
+  }
+  goToScene(
+    "sinks",
+    `mirror${sinkState.mirror}sinkL${sinkState.sinkL}sinkR${sinkState.sinkR}`,
+  );
+}
+
+function handleMirrorButton() {
+  // Allow mirror wipe if foggy enough
+  if (sinkState.mirror >= 3) {
+    sinkState.mirror = (sinkState.mirror + 1) % 7;
+    goToScene(
+      "sinks",
+      `mirror${sinkState.mirror}sinkL${sinkState.sinkL}sinkR${sinkState.sinkR}`,
+    );
+    //Animate fogging animation
+    if (sinkState.mirror == 0) {
+      mirrorInterval = setInterval(function () {
+        sinkState.mirror += 1;
+        goToScene(
+          "sinks",
+          `mirror${sinkState.mirror}sinkL${sinkState.sinkL}sinkR${sinkState.sinkR}`,
+        );
+        if (sinkState.mirror == 3) {
+          clearInterval(mirrorInterval);
+        }
+      }, 2000);
+    }
+  }
 }
 
 let muralState = {
@@ -212,18 +355,28 @@ let animationIndex = 0;
 let timeoutQueue = [];
 
 let spritesheets = {
-  entrance: { url: "img/entrance_spritesheet.png", imgObj: {} },
-  lobby: { url: "img/lobby_spritesheet.png", imgObj: {} },
-  lockerroom: { url: "img/lockerroom_spritesheet.png", imgObj: {} },
-  bathhouse: { url: "img/bathhouse_spritesheet.png", imgObj: {} },
-  faucet: { url: "img/faucet_spritesheet.png", imgObj: {} },
-  shower: { url: "img/shower_spritesheet.png", imgObj: {} },
-  jacuzzi: { url: "img/jacuzzi_spritesheet.png", imgObj: {} },
-  jacuzzi_animation: { url: "img/jacuzzi_animation.png", imgObj: {} },
-  coldbath: { url: "img/coldbath_spritesheet.png", imgObj: {} },
-  coldbath_animation: { url: "img/coldbath_animation.png", imgObj: {} },
-  mural: { url: "img/mural_spritesheet.png", imgObj: {} },
-  sauna: { url: "img/sauna_spritesheet.png", imgObj: {} },
+  entrance: { url: "img_compressed/entrance_spritesheet.png", imgObj: {} },
+  lobby: { url: "img_compressed/lobby_spritesheet.png", imgObj: {} },
+  shoelocker: { url: "img_compressed/shoelocker_spritesheet.png", imgObj: {} },
+  vending: { url: "img_compressed/vending_spritesheet.png", imgObj: {} },
+  fishtank: { url: "img_compressed/fish_spritesheet.png", imgObj: {} },
+  lockerroom: { url: "img_compressed/lockerroom_spritesheet.png", imgObj: {} },
+  sinks: { url: "img_compressed/sink_spritesheet.png", imgObj: {} },
+  bathhouse: { url: "img_compressed/bathhouse_spritesheet.png", imgObj: {} },
+  faucet: { url: "img_compressed/faucet_spritesheet.png", imgObj: {} },
+  shower: { url: "img_compressed/shower_spritesheet.png", imgObj: {} },
+  jacuzzi: { url: "img_compressed/jacuzzi_spritesheet.png", imgObj: {} },
+  jacuzzi_animation: {
+    url: "img_compressed/jacuzzi_animation.png",
+    imgObj: {},
+  },
+  coldbath: { url: "img_compressed/coldbath_spritesheet.png", imgObj: {} },
+  coldbath_animation: {
+    url: "img_compressed/coldbath_animation.png",
+    imgObj: {},
+  },
+  mural: { url: "img_compressed/mural_spritesheet.png", imgObj: {} },
+  sauna: { url: "img_compressed/sauna_spritesheet.png", imgObj: {} },
 };
 
 function resetButtons() {
@@ -351,37 +504,37 @@ var game = function (p) {
 
   let jacuzzi_animations = [];
 
-  let sceneStates = {
-    mirror: 0,
-    sinkL: 0,
-    sinkR: 0,
-  };
+  // let sceneStates = {
+  //   mirror: 0,
+  //   sinkL: 0,
+  //   sinkR: 0,
+  // };
   // How will we map states to sprites?
 
-  let sinkImages = [];
+  // let sinkImages = [];
 
-  let statesToIndex = {
-    mirror0sinkL0sinkR0: 0,
-    mirror0sinkL1sinkR0: 1,
-    mirror0sinkL0sinkR1: 2,
-    mirror0sinkL1sinkR1: 3,
-    mirror1sinkL0sinkR0: 4,
-    mirror1sinkL1sinkR0: 5,
-    mirror1sinkL0sinkR1: 6,
-    mirror1sinkL1sinkR1: 7,
-    mirror2sinkL0sinkR0: 8,
-    mirror2sinkL1sinkR0: 9,
-    mirror2sinkL0sinkR1: 10,
-    mirror2sinkL1sinkR1: 11,
-    mirror3sinkL0sinkR0: 12,
-    mirror3sinkL1sinkR0: 13,
-    mirror3sinkL0sinkR1: 14,
-    mirror3sinkL1sinkR1: 15,
-    mirror4sinkL0sinkR0: 16,
-    mirror4sinkL1sinkR0: 17,
-    mirror4sinkL0sinkR1: 18,
-    mirror4sinkL1sinkR1: 19,
-  };
+  // let statesToIndex = {
+  //   mirror0sinkL0sinkR0: 0,
+  //   mirror0sinkL1sinkR0: 1,
+  //   mirror0sinkL0sinkR1: 2,
+  //   mirror0sinkL1sinkR1: 3,
+  //   mirror1sinkL0sinkR0: 4,
+  //   mirror1sinkL1sinkR0: 5,
+  //   mirror1sinkL0sinkR1: 6,
+  //   mirror1sinkL1sinkR1: 7,
+  //   mirror2sinkL0sinkR0: 8,
+  //   mirror2sinkL1sinkR0: 9,
+  //   mirror2sinkL0sinkR1: 10,
+  //   mirror2sinkL1sinkR1: 11,
+  //   mirror3sinkL0sinkR0: 12,
+  //   mirror3sinkL1sinkR0: 13,
+  //   mirror3sinkL0sinkR1: 14,
+  //   mirror3sinkL1sinkR1: 15,
+  //   mirror4sinkL0sinkR0: 16,
+  //   mirror4sinkL1sinkR0: 17,
+  //   mirror4sinkL0sinkR1: 18,
+  //   mirror4sinkL1sinkR1: 19,
+  // };
 
   let animationSequenceIndex = 0;
 
@@ -425,7 +578,13 @@ var game = function (p) {
     scenes[scene][state].destinationState = destinationState;
   }
 
+  function initializeGame() {
+    finishedLoading = true;
+    document.querySelector("#buttonContainer").style.opacity = 0;
+  }
+
   p.setup = function () {
+    initializeGame();
     // put setup code here
     // p.pixelDensity(1);
     // calculateCanvasDimensions(p);
@@ -473,13 +632,128 @@ var game = function (p) {
     // Initialize lobby rooms
 
     populateFrames(spritesheets.lobby.imgObj, 1, "lobby_main", "default", 3);
-    populateFrames(spritesheets.lobby.imgObj, 2, "lobby_exit", "default", 3);
-    populateFrames(spritesheets.lobby.imgObj, 3, "lobby_vending", "default", 3);
+    populateFrames(spritesheets.lobby.imgObj, 10, "lobby_exit", "default", 3);
     populateFrames(
       spritesheets.lobby.imgObj,
-      4,
+      11,
+      "lobby_vending",
+      "default",
+      3,
+    );
+    populateFrames(
+      spritesheets.lobby.imgObj,
+      12,
       "lobby_lockerroom",
       "default",
+      3,
+    );
+
+    populateFrames(spritesheets.fishtank.imgObj, 1, "fishtank", "default", 14);
+
+    populateFrames(
+      spritesheets.vending.imgObj,
+      1,
+      "vendingOptions",
+      "default",
+      2,
+    );
+    populateFrames(spritesheets.vending.imgObj, 2, "vendingOptions", "1", 2);
+    populateFrames(spritesheets.vending.imgObj, 3, "vendingOptions", "2", 2);
+    populateFrames(spritesheets.vending.imgObj, 4, "vendingOptions", "3", 2);
+    populateFrames(spritesheets.vending.imgObj, 5, "vendingOptions", "4", 2);
+    populateFrames(spritesheets.vending.imgObj, 6, "vendingOptions", "5", 2);
+    populateFrames(spritesheets.vending.imgObj, 7, "vendingOptions", "6", 2);
+    populateFrames(spritesheets.vending.imgObj, 8, "vendingOptions", "7", 2);
+    populateFrames(spritesheets.vending.imgObj, 9, "vendingOptions", "8", 2);
+
+    populateFrames(spritesheets.vending.imgObj, 10, "vendingResults", "0", 2);
+    populateFrames(spritesheets.vending.imgObj, 11, "vendingResults", "1", 2);
+    populateFrames(spritesheets.vending.imgObj, 12, "vendingResults", "2", 2);
+    populateFrames(spritesheets.vending.imgObj, 13, "vendingResults", "3", 2);
+    populateFrames(spritesheets.vending.imgObj, 14, "vendingResults", "4", 2);
+    populateFrames(spritesheets.vending.imgObj, 15, "vendingResults", "5", 2);
+
+    // Shoelocker
+
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      1,
+      "shoelocker",
+      "default",
+      3,
+    );
+    populateFrames(spritesheets.shoelocker.imgObj, 2, "shoelocker", "1", 3);
+    populateFrames(spritesheets.shoelocker.imgObj, 3, "shoelocker", "2", 3);
+    populateFrames(spritesheets.shoelocker.imgObj, 4, "shoelocker", "3", 3);
+    populateFrames(spritesheets.shoelocker.imgObj, 5, "shoelocker", "4", 3);
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      6,
+      "shoelockerCloseup",
+      "0",
+      3,
+    );
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      7,
+      "shoelockerCloseup",
+      "1",
+      3,
+    );
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      8,
+      "shoelockerCloseup",
+      "2",
+      3,
+    );
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      9,
+      "shoelockerCloseup",
+      "3",
+      3,
+    );
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      10,
+      "shoelockerCloseup",
+      "4",
+      3,
+    );
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      11,
+      "shoelockerCloseup",
+      "5",
+      3,
+    );
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      12,
+      "shoelockerCloseup",
+      "6",
+      3,
+    );
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      13,
+      "shoelockerCloseup",
+      "7",
+      3,
+    );
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      14,
+      "shoelockerCloseup",
+      "8",
+      3,
+    );
+    populateFrames(
+      spritesheets.shoelocker.imgObj,
+      15,
+      "shoelockerCloseup",
+      "9",
       3,
     );
 
@@ -514,44 +788,14 @@ var game = function (p) {
     );
 
     populateFrames(spritesheets.lockerroom.imgObj, 5, "lockers", "default", 3);
-    populateFrames(spritesheets.lockerroom.imgObj, 6, "lockers", "open1", 3);
-    populateFrames(spritesheets.lockerroom.imgObj, 7, "lockers", "open2", 3);
-    populateFrames(spritesheets.lockerroom.imgObj, 8, "lockers", "open3", 3);
-    populateFrames(
-      spritesheets.lockerroom.imgObj,
-      9,
-      "lockerCloseup",
-      "default",
-      3,
-    );
-    populateFrames(
-      spritesheets.lockerroom.imgObj,
-      10,
-      "lockerCloseup",
-      "clothes1",
-      3,
-    );
-    populateFrames(
-      spritesheets.lockerroom.imgObj,
-      11,
-      "lockerCloseup",
-      "clothes2",
-      3,
-    );
-    populateFrames(
-      spritesheets.lockerroom.imgObj,
-      12,
-      "lockerCloseup",
-      "clothes3",
-      3,
-    );
-    populateFrames(
-      spritesheets.lockerroom.imgObj,
-      13,
-      "lockerCloseup",
-      "clothes4",
-      3,
-    );
+    populateFrames(spritesheets.lockerroom.imgObj, 6, "lockers", "1", 3);
+    populateFrames(spritesheets.lockerroom.imgObj, 7, "lockers", "2", 3);
+    populateFrames(spritesheets.lockerroom.imgObj, 8, "lockers", "3", 3);
+    populateFrames(spritesheets.lockerroom.imgObj, 9, "lockerCloseup", "0", 3);
+    populateFrames(spritesheets.lockerroom.imgObj, 10, "lockerCloseup", "1", 3);
+    populateFrames(spritesheets.lockerroom.imgObj, 11, "lockerCloseup", "2", 3);
+    populateFrames(spritesheets.lockerroom.imgObj, 12, "lockerCloseup", "3", 3);
+    populateFrames(spritesheets.lockerroom.imgObj, 13, "lockerCloseup", "4", 3);
     populateFrames(
       spritesheets.lockerroom.imgObj,
       14,
@@ -566,6 +810,37 @@ var game = function (p) {
       "added",
       3,
     );
+
+    // initialize sink stuff
+    // Sink states:
+    // - Sink L : false/true
+    // - Sink R : false/true
+    // - Mirror state: 0,1,2,3 -> Fog levels.... 4,5,6 -> writing levels
+
+    for (var i = 0; i < 28; i++) {
+      let mirrorState, l_state, r_state;
+      mirrorState = Math.floor(i / 4);
+      if (i % 4 == 0) {
+        l_state = false;
+        r_state = false;
+      } else if (i % 4 == 1) {
+        l_state = true;
+        r_state = false;
+      } else if (i % 4 == 2) {
+        l_state = true;
+        r_state = true;
+      } else if (i % 4 == 3) {
+        l_state = false;
+        r_state = true;
+      }
+      populateFrames(
+        spritesheets.sinks.imgObj,
+        i + 1,
+        "sinks",
+        `mirror${mirrorState}sinkL${l_state}sinkR${r_state}`,
+        3,
+      );
+    }
 
     // initialize bathhouse main scene
 
@@ -674,8 +949,6 @@ var game = function (p) {
         3,
       );
     }
-
-    console.log(scenes["mural"]);
 
     // Initialize sauna
     for (var i = 1; i < 16; i++) {
