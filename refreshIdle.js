@@ -17,5 +17,5 @@ function setIdle(cb, seconds) {
 }
 
 setIdle(function () {
-  location.href = "/";
+  location.href = "https://jackieis.online/localbathhouse";
 }, resetTime);
