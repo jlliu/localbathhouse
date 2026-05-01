@@ -209,7 +209,7 @@ function handleGoToLockerroom() {
 }
 
 // Cloths locker logic
-let assignedClothesLocker = Math.floor(Math.random() * 3);
+let assignedClothesLocker = Math.floor(Math.random() * 3) + 1;
 let lockerFilled = false;
 
 let clothesState = 0;
