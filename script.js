@@ -579,8 +579,14 @@ var game = function (p) {
   }
 
   function initializeGame() {
+    let buttonContainer = document.querySelector("#buttonContainer");
+    let buttons = document.querySelectorAll("#buttonContainer button");
     finishedLoading = true;
-    document.querySelector("#buttonContainer").style.opacity = 0;
+    buttonContainer.style.opacity = 0;
+    buttonContainer.style.pointerEvents = "all";
+    buttons.forEach(function (button) {
+      button.style.pointerEvents = "all";
+    });
   }
 
   p.setup = function () {

@@ -50,6 +50,7 @@ canvas, video {
   /* cursor: none !important; */
   transition: opacity 1s;
   z-index:1;
+  pointer-events:none;
 
   background:url('img/Loading.png');
 
@@ -60,6 +61,7 @@ canvas, video {
       position:absolute;
       cursor: pointer;
       opacity:0 !important;
+       pointer-events:none;
     }
 
     /* Button CSS */
